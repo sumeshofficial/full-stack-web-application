@@ -1,11 +1,12 @@
 import express from 'express';
 import expressLayouts from 'express-ejs-layouts';
 import { fileURLToPath } from 'url';
-import ejs from 'ejs';
 import path from 'path';
 import userRouter from './routes/userRoute.js';
 import connectDB from './config/db.js';
 import dotenv from 'dotenv';
+
+dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

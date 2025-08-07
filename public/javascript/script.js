@@ -40,7 +40,7 @@ const isValidEmail = (email) => {
 };
 
 const validateInputs = () => {
-  let flag = false;
+  let flag = true;
   const usernameValue = username.value.trim();
   const emailValue = email.value.trim();
   const passwordValue = password.value.trim();
@@ -49,9 +49,11 @@ const validateInputs = () => {
   if (usernameValue === "") {
     setError(username, "Username is required");
     flag = false;
+  }else if (usernameValue.length < 3) {
+    setError(username, "User name must be at least 3 character.");
+    flag = false;
   } else {
     setSuccess(username);
-    flag = true;
   }
 
   if (emailValue === "") {
@@ -59,7 +61,6 @@ const validateInputs = () => {
     flag = false;
   } else {
     setSuccess(email);
-    flag = true;
   }
 
   if (emailValue === "") {
@@ -70,7 +71,6 @@ const validateInputs = () => {
     flag = false;
   } else {
     setSuccess(email);
-    flag = true;
   }
 
   if (passwordValue === "") {
@@ -81,7 +81,6 @@ const validateInputs = () => {
     flag = false;
   } else {
     setSuccess(password);
-    flag = true;
   }
 
   if (confirmPasswordValue === "") {
@@ -92,7 +91,6 @@ const validateInputs = () => {
     flag = false;
   } else {
     setSuccess(confirmPassword);
-    flag = true;
   }
 
   return flag;

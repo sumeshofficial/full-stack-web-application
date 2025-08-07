@@ -7,7 +7,7 @@ userRouter.post('/login', loginUser);
 userRouter.post('/admin', loginAdmin);
 
 userRouter.get('/register', (req, res) => {
-    res.render("user/register");
+    res.render("user/register", {message: ""});
 });
 
 userRouter.get('/login', (req, res) => {

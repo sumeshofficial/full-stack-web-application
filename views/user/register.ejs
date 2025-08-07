@@ -4,6 +4,10 @@
       <header>Register</header>
     </div>
 
+    <% if (message) { %>
+      <div style="margin: auto; margin-bottom: 10px; color: red;"><%= message %></div>
+    <% } %>  
+
     <div class="input-box">
       <div class="error"></div>
       <input type="text" id="username" class="input-field" placeholder="Name" autocomplete="off" name="name">
