@@ -49,7 +49,7 @@ const validateInputs = () => {
   if (usernameValue === "") {
     setError(username, "Username is required");
     flag = false;
-  }else if (usernameValue.length < 3) {
+  } else if (usernameValue.length < 3) {
     setError(username, "User name must be at least 3 character.");
     flag = false;
   } else {

@@ -11,7 +11,7 @@ userRouter.get('/register', (req, res) => {
 });
 
 userRouter.get('/login', (req, res) => {
-    res.render("user/login");
+    res.render("user/login", {message: "" });
 });
 
 export default userRouter;
