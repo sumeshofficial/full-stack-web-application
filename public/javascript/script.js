@@ -7,9 +7,8 @@ const eyeicon = document.getElementById("eye-open1");
 const eyeicon2 = document.getElementById("eye-open2");
 
 form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    
-    console.log(validateInputs());
+  e.preventDefault();
+
   if (validateInputs()) {
     form.submit();
   }
