@@ -1,0 +1,38 @@
+<form action="/register" method="POST" id="form">
+  <div class="login-box">
+    <div class="login-header">
+      <header>Register</header>
+    </div>
+
+    <div class="input-box">
+      <div class="error"></div>
+      <input type="text" id="username" class="input-field" placeholder="Name" autocomplete="off" name="name">
+    </div>
+
+    <div class="input-box">
+      <div class="error"></div>
+      <input type="text" id="email" class="input-field" placeholder="Email" autocomplete="off" name="email">
+    </div>
+
+    <div class="input-box" style="display: flex; flex-wrap: wrap; align-items: center;">
+      <div class="error"></div>
+      <input type="password" id="password" class="input-field" placeholder="Password" autocomplete="off" name="password">
+      <i id="eye-open1" class="fa-regular fa-eye-slash" style="margin-left: -45px; margin-top: -10px;"></i>
+    </div>
+
+    <div class="input-box" style="display: flex; flex-wrap: wrap; align-items: center;">
+      <div class="error"></div>
+      <input type="password" id="confirm-password" class="input-field" placeholder="Confrim Password" autocomplete="off" name="confirm-password">
+      <i id="eye-open2" class="fa-regular fa-eye-slash" style="margin-left: -45px; margin-top: -10px;"></i>
+    </div>
+
+    <div class="input-submit">
+      <button type="submit" class="submit-btn" ></button>
+      <label for="submit">Sign Up</label>
+    </div>
+
+    <div class="sign-up-link">
+      <p>Already have an account? <a href="/login">Login</a></p>
+    </div>
+  </div>
+</form>
