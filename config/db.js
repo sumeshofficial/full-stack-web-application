@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
+import dotenv from "dotenv";
 
-const uri = 'mongodb://127.0.0.1:27017/project';
+dotenv.config();
 
 const connectDB = async () => {
 
@@ -8,7 +9,7 @@ const connectDB = async () => {
         console.log("DB connected");
     })
 
-    await mongoose.connect(uri)
+    await mongoose.connect(process.env.MONGODB_URI);
 
 }
 

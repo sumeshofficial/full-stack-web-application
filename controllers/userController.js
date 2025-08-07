@@ -1,13 +1,18 @@
-import { usersModel } from "../models/userData.js";
+import { usersModel } from "../models/userModel.js";
 
+// route for register user
 export const registerUser = async (req, res) => {
   try {
-    const users = await usersModel.create(req.body);
-    console.log(users);
-    res.json(users);
   } catch (error) {
-    res.json(error)
   }
 };
 
-export const loginUser = async () => {};
+// route for user login
+export const loginUser = async (req, res) => {
+
+};
+
+// route for admin login
+export const loginAdmin = async (req, res) => {
+
+};
