@@ -3,6 +3,7 @@ import expressLayouts from "express-ejs-layouts";
 import { fileURLToPath } from "url";
 import path from "path";
 import userRouter from "./routes/userRoute.js";
+import adminRouter from "./routes/adminRoute.js";
 import connectDB from "./config/db.js";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
@@ -40,6 +41,7 @@ app.use(
 app.use(cookieParser());
 
 app.use("/", userRouter);
+app.use("/", adminRouter);
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
