@@ -1,12 +1,47 @@
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import { usersModel } from "../models/userModel.js";
 
 dotenv.config();
 
-const createToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET);
+// home route
+
+export const userHome = async (req, res) => {
+  try {
+    res.render("user/home", { user: req.session.user });
+  } catch (error) {
+    console.log(error);
+    res.render("user/home", { message: error.message });
+  }
+};
+
+export const registerUserGet = async (req, res) => {
+  try {
+
+    if (req.session.user) {
+      res.redirect("/");
+    } else {
+      res.render("user/register", { message: "" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.render("user/register", { message: error.message });
+  }
+};
+
+export const loginUserGet = async (req, res) => {
+  try {
+
+    if (req.session.user) {
+      return res.redirect('/');
+    }
+
+    res.render("user/login", { message: "" });
+
+  } catch (error) {
+    console.log(error);
+    res.render("user/login", { message: error.message });
+  }
 };
 
 // route for register user
@@ -32,20 +67,18 @@ export const registerUser = async (req, res) => {
 
     const user = await newUser.save();
 
-    const token = createToken(user._id);
-
-    res.render("user/home",{user:user.name});
+    res.render("/");
   } catch (error) {
     console.log(error);
-    res.render("user/register", { message: error });
+    res.render("user/register", { message: error.message });
   }
 };
 
 // route for user login
 export const loginUser = async (req, res) => {
   try {
+
     const { email, password } = req.body;
-    console.log(req.body);
 
     const user = await usersModel.findOne({ email });
 
@@ -56,16 +89,36 @@ export const loginUser = async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (isMatch) {
-      const token = createToken(user._id);
-      res.render("user/home",{user:user.name});
+
+      req.session.user = user.name;
+
+      res.redirect("/");
     } else {
       res.render("user/login", { message: "Invalid credentials" });
     }
   } catch (error) {
     console.log(error);
-    res.render("user/login", { message: error });
+    res.render("user/login", { message: error.message });
   }
 };
 
 // route for admin login
-export const loginAdmin = async (req, res) => { };
+export const loginAdmin = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    if (
+      email === process.env.ADMIN_EMAIL &&
+      password === process.env.ADMIN_PASSWORD
+    ) {
+      const token = jwt.sign(email + password, process.env.JWT_SECRET);
+
+      res.render("admin/home");
+    } else {
+      res.render("admin/login", { message: "Invalid credentials" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.render("admin/home", { message: error.message });
+  }
+};
