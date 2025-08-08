@@ -101,23 +101,3 @@ export const loginUser = async (req, res) => {
     res.render("user/login", { message: error.message });
   }
 };
-
-// route for admin login
-export const loginAdmin = async (req, res) => {
-  try {
-    const { email, password } = req.body;
-
-    if (
-      email === process.env.ADMIN_EMAIL &&
-      password === process.env.ADMIN_PASSWORD
-    ) {
-
-      res.render("admin/home");
-    } else {
-      res.render("admin/login", { message: "Invalid credentials" });
-    }
-  } catch (error) {
-    console.log(error);
-    res.render("admin/home", { message: error.message });
-  }
-};
