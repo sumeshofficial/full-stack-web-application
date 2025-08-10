@@ -109,23 +109,25 @@ export const viewUser = async (req, res) => {
 export const editUser = async (req, res) => {
   try {
     const user = await usersModel.findOne({ _id: req.params.id });
-    
-    res.render("admin/users/edit", { pageCss: "dashboard", user});
+
+    res.render("admin/users/edit", { pageCss: "dashboard", user });
   } catch (error) {
-    console.log(error); 
+    console.log(error);
   }
 };
 
 export const editPostUser = async (req, res) => {
   try {
+    const { name, email } = req.body;
 
-    const {name, email} = req.body;
-    
-    const user = await usersModel.updateOne({ _id: req.params.id }, {name: name, email: email});
+    const user = await usersModel.updateOne(
+      { _id: req.params.id },
+      { name: name, email: email }
+    );
 
     res.redirect("/admin/dashboard");
   } catch (error) {
-    console.log(error); 
+    console.log(error);
   }
 };
 
@@ -134,15 +136,29 @@ export const deleteUser = async (req, res) => {
     const user = await usersModel.deleteOne({ _id: req.params.id });
     res.redirect("/admin/dashboard");
   } catch (error) {
-    console.log(error); 
+    console.log(error);
   }
 };
 
 export const searchUser = async (req, res) => {
   try {
-    const user = await usersModel.deleteOne({ _id: req.params.id });
-    res.redirect("/admin/dashboard");
+    let searchTerm = req.body.searchTerm;
+    const searchNoSecialChar = searchTerm.replace(/[^a-zA-Z0-9 ]/g, "");
+
+    const users = await usersModel.find({
+      name: { $regex: new RegExp(searchNoSecialChar, "i") },
+    });
+
+    res.render("admin/search", { pageCss: "dashboard", users });
   } catch (error) {
-    console.log(error); 
+    console.log(error);
+  }
+};
+
+export const about = async (req, res) => {
+  try {
+    res.render("admin/about", { pageCss: "dashboard"});
+  } catch (error) {
+    console.log(error);
   }
 };
