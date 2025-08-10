@@ -187,11 +187,11 @@ export const blockUser = async (req, res) => {
       { _id: req.params.id },
       { $set: { blocked: status } }
     );
-    const user = await usersModel.findOne({_id: req.params.id})
+    const user = await usersModel.findOne({ _id: req.params.id });
     console.log(user);
     if (user.blocked === true) {
-      const client =  mongoose.connection.getClient();
-      const sessionCollection = client.db().collection('userSessions');
+      const client = mongoose.connection.getClient();
+      const sessionCollection = client.db().collection("userSessions");
       await sessionCollection.deleteMany({ "session.userId": req.params.id });
     }
     res.redirect("/admin/dashboard");

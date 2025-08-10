@@ -61,6 +61,8 @@ app.use(
   userRouter
 );
 
+app.use((req, res) => res.render("user/404"));
+
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });

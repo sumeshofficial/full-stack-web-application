@@ -12,7 +12,7 @@ const adminAuth = async (req, res, next) => {
 
     return res.render("admin/login", {
       message: error.message,
-      pageCss: 'login'
+      pageCss: "login",
     });
   }
 };

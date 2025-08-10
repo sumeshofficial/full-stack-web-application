@@ -1,0 +1,21 @@
+body {
+  background-color: #f8f9fa;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+h1 {
+  font-size: 6rem;
+  font-weight: bold;
+}
+
+p {
+  font-size: 1.25rem;
+}
+
+a {
+  margin-top: 20px;
+}
