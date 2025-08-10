@@ -1,0 +1,157 @@
+<%- include('../../partials/header') %>
+<div class="container-fluid">
+  <div class="row">
+    <%- include('../../partials/sidebar') %>
+
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+      <div class="d-flex justify-content-between flex-wrap flex-md nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">User</h1>
+        <div class="btn-toolbar mb-2 mb-md 0">
+          <div class="btn-group me-2">
+            <a href="/admin/add" class="btn btn-sm btn-outline-secondary">?</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col py-3">
+        <div class="row">
+          <div class="col">
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
+                <li class="breadcrumb-item active">New User</li>
+              </ol>
+            </nav>
+          </div>
+          <div class="col text-end fw-lighter">
+            <b>UserId</b>
+          </div>
+        </div>
+      </div>
+
+      <% if (message) { %>
+      <div style="margin: auto; margin-bottom: 10px; color: red;"><%= message %></div>
+      <% } %>
+
+      <form action="/admin/add" method="post" id="form">
+        <div class="row form-grou mb-4">
+          <div class="row form-group mb-4">
+            <div class="col">
+              <div class="error"></div>
+              <label for="firstName">Name</label>
+              <input type="text" class="form-control" id="name" name="name" placeholder="Name">
+            </div>
+
+          </div>
+
+          <div class="row form-group mb-4">
+            <div class="col">
+              <div class="error"></div>
+              <label for="email">Email</label>
+              <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+            </div>
+
+            <div class="col">
+              <div class="error"></div>
+              <label for="email">Password</label>
+              <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+            </div>
+          </div>
+
+          <div class="form-group mb-4">
+            <button type="submit" class="btn btn-primary">Add User</button>
+          </div>
+        </div>
+      </form>
+
+    </main>
+
+  </div>
+</div>
+
+<script>
+  const form = document.getElementById("form");
+  const username = document.getElementById("name");
+  const email = document.getElementById("email");
+  const password = document.getElementById("password");
+
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    if (validateInputs()) {
+      form.submit();
+    }
+  });
+
+  const setError = (element, message) => {
+    const inputControl = element.parentElement;
+    const errorDisplay = inputControl.querySelector(".error");
+
+    errorDisplay.innerText = message;
+
+    inputControl.classList.add("error");
+    inputControl.classList.remove("success");
+  };
+
+  const setSuccess = (element) => {
+    const inputControl = element.parentElement;
+    const errorDisplay = inputControl.querySelector(".error");
+
+    errorDisplay.innerText = "";
+    inputControl.classList.add("success");
+    inputControl.classList.remove("error");
+  };
+
+  const isValidEmail = (email) => {
+    const re =
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+  };
+
+  const validateInputs = () => {
+    let flag = true;
+    const usernameValue = username.value.trim();
+    const emailValue = email.value.trim();
+    const passwordValue = password.value.trim();
+
+    if (usernameValue === "") {
+      setError(username, "Username is required");
+      flag = false;
+    } else if (usernameValue.length < 3) {
+      setError(username, "User name must be at least 3 character.");
+      flag = false;
+    } else {
+      setSuccess(username);
+    }
+
+    if (emailValue === "") {
+      setError(email, "Email is required");
+      flag = false;
+    } else {
+      setSuccess(email);
+    }
+
+    if (emailValue === "") {
+      setError(email, "Email is required");
+      flag = false;
+    } else if (!isValidEmail(emailValue)) {
+      setError(email, "Provide a valid email address");
+      flag = false;
+    } else {
+      setSuccess(email);
+    }
+
+    if (passwordValue === "") {
+      setError(password, "Password is required");
+      flag = false;
+    } else if (passwordValue.length < 8) {
+      setError(password, "Password must be at least 8 character.");
+      flag = false;
+    } else {
+      setSuccess(password);
+    }
+
+    return flag;
+  };
+</script>

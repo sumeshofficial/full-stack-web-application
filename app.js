@@ -22,10 +22,10 @@ connectDB();
 
 //middlewares
 app.use(nocache());
-app.set("views", "views");
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.set("views", "views");
 app.set("view engine", "ejs");
 app.use(expressLayouts);
 app.set("layout", "layout/index");
@@ -42,10 +42,6 @@ app.use(cookieParser());
 
 app.use("/", userRouter);
 app.use("/admin", adminRouter);
-
-app.use((req, res) => {
-  res.status(404).render('404');
-});
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);

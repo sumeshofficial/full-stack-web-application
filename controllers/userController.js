@@ -8,10 +8,10 @@ dotenv.config();
 
 export const userHome = async (req, res) => {
   try {
-    res.render("user/home", { user: req.session.user });
+    res.render("user/home", { user: req.session.user, pageCss: 'login' });
   } catch (error) {
     console.log(error);
-    res.render("user/home", { message: error.message });
+    res.render("user/home", { message: error.message, pageCss: 'login' });
   }
 };
 
@@ -21,11 +21,11 @@ export const registerUserGet = async (req, res) => {
     if (req.session.user) {
       res.redirect("/");
     } else {
-      res.render("user/register", { message: "" });
+      res.render("user/register", { message: "", pageCss: 'login' });
     }
   } catch (error) {
     console.log(error);
-    res.render("user/register", { message: error.message });
+    res.render("user/register", { message: error.message, pageCss: 'login' });
   }
 };
 
@@ -36,11 +36,11 @@ export const loginUserGet = async (req, res) => {
       return res.redirect('/');
     }
 
-    res.render("user/login", { message: "" });
+    res.render("user/login", { message: "", pageCss: 'login' });
 
   } catch (error) {
     console.log(error);
-    res.render("user/login", { message: error.message });
+    res.render("user/login", { message: error.message, pageCss: 'login' });
   }
 };
 
@@ -52,7 +52,7 @@ export const registerUser = async (req, res) => {
     //checking user already exists or not
     const exists = await usersModel.findOne({ email });
     if (exists) {
-      return res.render("user/register", { message: "User already exists" });
+      return res.render("user/register", { message: "User already exists", pageCss: 'login' });
     }
 
     // hashing user password
@@ -67,10 +67,10 @@ export const registerUser = async (req, res) => {
 
     const user = await newUser.save();
 
-    res.render("/");
+    res.redirect("/");
   } catch (error) {
     console.log(error);
-    res.render("user/register", { message: error.message });
+    res.render("user/register", { message: error.message, pageCss: 'login' });
   }
 };
 
@@ -83,7 +83,7 @@ export const loginUser = async (req, res) => {
     const user = await usersModel.findOne({ email });
 
     if (!user) {
-      return res.render("user/login", { message: "User doesn't exixts" });
+      return res.render("user/login", { message: "User doesn't exixts", pageCss: 'login' });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
@@ -94,10 +94,10 @@ export const loginUser = async (req, res) => {
 
       res.redirect("/");
     } else {
-      res.render("user/login", { message: "Invalid credentials" });
+      res.render("user/login", { message: "Invalid credentials", pageCss: 'login' });
     }
   } catch (error) {
     console.log(error);
-    res.render("user/login", { message: error.message });
+    res.render("user/login", { message: error.message, pageCss: 'login' });
   }
 };

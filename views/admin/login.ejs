@@ -5,8 +5,8 @@
     </div>
 
     <% if (message) { %>
-      <div style="margin: auto; margin-bottom: 10px; color: red; margin-top: -20px;"><%= message %></div>
-    <% } %> 
+    <div style="margin: auto; margin-bottom: 10px; color: red; margin-top: -20px;"><%= message %></div>
+    <% } %>
 
     <div class="input-box">
       <input type="text" class="input-field" placeholder="Email" autocomplete="off" name="email">
@@ -27,7 +27,7 @@
 <script>
   const password = document.getElementById("password");
   const eyeicon = document.getElementById("eye-open1");
-  
+
   eyeicon.onclick = () => {
     eyeicon.classList.toggle("fa-eye");
     eyeicon.classList.toggle("fa-eye-slash");
