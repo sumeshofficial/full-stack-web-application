@@ -1,10 +1,13 @@
 import dotenv from "dotenv";
 import { usersModel } from "../models/userModel.js";
-import { userSessionStore } from "../session/store.js";
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 dotenv.config();
 
+/**
+ * GET /
+ * Homepage
+ */
 export const loginAdmin = async (req, res) => {
   try {
     if (req.session.admin) {
@@ -17,6 +20,10 @@ export const loginAdmin = async (req, res) => {
   }
 };
 
+/**
+ * POST /
+ * Homepage
+ */
 export const verifyAdmin = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -40,6 +47,10 @@ export const verifyAdmin = async (req, res) => {
   }
 };
 
+/**
+ * GET /
+ * Dashboard
+ */
 export const adminDashboard = async (req, res) => {
   try {
     if (!req.session.admin) {
@@ -68,10 +79,19 @@ export const adminDashboard = async (req, res) => {
   }
 };
 
+/**
+ * GET /
+ * addUser
+ */
+
 export const addUser = async (req, res) => {
   res.render("admin/users/add", { pageCss: "dashboard", message: "" });
 };
 
+/**
+ * POST /
+ * addUser
+ */
 export const postUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -97,6 +117,10 @@ export const postUser = async (req, res) => {
   }
 };
 
+/**
+ * GET /
+ * viewUser
+ */
 export const viewUser = async (req, res) => {
   try {
     const user = await usersModel.findOne({ _id: req.params.id });
@@ -106,6 +130,10 @@ export const viewUser = async (req, res) => {
   }
 };
 
+/**
+ * GET /
+ * editUser
+ */
 export const editUser = async (req, res) => {
   try {
     const user = await usersModel.findOne({ _id: req.params.id });
@@ -116,6 +144,10 @@ export const editUser = async (req, res) => {
   }
 };
 
+/**
+ * POST /
+ * editUser
+ */
 export const editPostUser = async (req, res) => {
   try {
     const { name, email } = req.body;
@@ -131,6 +163,10 @@ export const editPostUser = async (req, res) => {
   }
 };
 
+/**
+ * GET /
+ * deleteUser
+ */
 export const deleteUser = async (req, res) => {
   try {
     const user = await usersModel.deleteOne({ _id: req.params.id });
@@ -140,6 +176,10 @@ export const deleteUser = async (req, res) => {
   }
 };
 
+/**
+ * GET /
+ * blockUser
+ */
 export const blockUser = async (req, res) => {
   try {
     const status = req.params.stat === "true" ? false : true;
@@ -160,6 +200,10 @@ export const blockUser = async (req, res) => {
   }
 };
 
+/**
+ * GET /
+ * searchUser
+ */
 export const searchUser = async (req, res) => {
   try {
     let searchTerm = req.body.searchTerm;
@@ -175,6 +219,10 @@ export const searchUser = async (req, res) => {
   }
 };
 
+/**
+ * GET /
+ * adminAbout
+ */
 export const about = async (req, res) => {
   try {
     res.render("admin/about", { pageCss: "dashboard" });
