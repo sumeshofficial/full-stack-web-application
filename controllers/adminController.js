@@ -98,11 +98,51 @@ export const postUser = async (req, res) => {
 
 export const viewUser = async (req, res) => {
   try {
+    const user = await usersModel.findOne({ _id: req.params.id });
 
-    const user = await usersModel.findOne({_id: req.params.id})
-
-    res.render('admin/users/view', {pageCss: "dashboard", user});
+    res.render("admin/users/view", { pageCss: "dashboard", user });
   } catch (error) {
     console.log(error);
   }
-}
+};
+
+export const editUser = async (req, res) => {
+  try {
+    const user = await usersModel.findOne({ _id: req.params.id });
+    
+    res.render("admin/users/edit", { pageCss: "dashboard", user});
+  } catch (error) {
+    console.log(error); 
+  }
+};
+
+export const editPostUser = async (req, res) => {
+  try {
+
+    const {name, email} = req.body;
+    
+    const user = await usersModel.updateOne({ _id: req.params.id }, {name: name, email: email});
+
+    res.redirect("/admin/dashboard");
+  } catch (error) {
+    console.log(error); 
+  }
+};
+
+export const deleteUser = async (req, res) => {
+  try {
+    const user = await usersModel.deleteOne({ _id: req.params.id });
+    res.redirect("/admin/dashboard");
+  } catch (error) {
+    console.log(error); 
+  }
+};
+
+export const searchUser = async (req, res) => {
+  try {
+    const user = await usersModel.deleteOne({ _id: req.params.id });
+    res.redirect("/admin/dashboard");
+  } catch (error) {
+    console.log(error); 
+  }
+};
