@@ -44,7 +44,12 @@
                     <i class="bi bi-pencil"></i>
                   </a>
 
-                  <a href="/admin/delete/<%= user._id %>" type="button" class="btn btn-danger btn-small">
+                  <a href="/admin/block/<%= user._id %>/<%= user.blocked %>" type="button" class="btn <% if (user.blocked) { %>
+                   btn-danger
+                  <% } else { %> 
+                    btn-primary
+                  <% } %>
+                  btn-small">
                     <i class="bi bi-person-x"></i>
                   </a>
 
@@ -73,10 +78,10 @@
           <% if (i == current) { %>
           <li class="page-item disabled"><a href="#" class="page-link"><%= i %></a></li>
           <% } else { %>
-            <li class="page-item"><a href="/admin/dashboard/?page=<%= i %>" class="page-link"><%= i %></a></li>
+          <li class="page-item"><a href="/admin/dashboard/?page=<%= i %>" class="page-link"><%= i %></a></li>
           <% } %>
           <% if (i === Number(current) + 4 && i < pages) { %>
-           <li class="page-item disabled"><a href="#" class="page-link">...</a></li>
+          <li class="page-item disabled"><a href="#" class="page-link">...</a></li>
           <% } %>
           <% } %>
           <% if (current == pages) { %>

@@ -4,7 +4,9 @@ dotenv.config();
 
 export const userSessionStore = MongoStore.create({
   mongoUrl: process.env.MONGODB_URI,
-  collectionName: 'userSessions'
+  collectionName: 'userSessions',
+  serialize: (session) => session,
+  deserialize: (session) => session,
 });
 
 export const adminSessionStore = MongoStore.create({

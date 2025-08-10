@@ -18,7 +18,7 @@ export const userHome = async (req, res) => {
 export const registerUserGet = async (req, res) => {
   try {
 
-    if (req.session.user) {
+    if (req.session.userId) {
       res.redirect("/");
     } else {
       res.render("user/register", { message: "", pageCss: 'login' });
@@ -32,7 +32,7 @@ export const registerUserGet = async (req, res) => {
 export const loginUserGet = async (req, res) => {
   try {
 
-    if (req.session.user) {
+    if (req.session.userId) {
       return res.redirect('/');
     }
 
@@ -86,15 +86,15 @@ export const loginUser = async (req, res) => {
       return res.render("user/login", { message: "User doesn't exixts", pageCss: 'login' });
     }
 
-    if (user.blocked){
+    if (user.blocked === true){
       return res.render("user/login", { message: "You are blocked by admin", pageCss: 'login' });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (isMatch) {
-
       req.session.user = user.name;
+      req.session.userId = user._id.toString();
 
       res.redirect("/");
     } else {

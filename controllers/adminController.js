@@ -1,5 +1,7 @@
 import dotenv from "dotenv";
 import { usersModel } from "../models/userModel.js";
+import { userSessionStore } from "../session/store.js";
+import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 dotenv.config();
 
@@ -98,7 +100,6 @@ export const postUser = async (req, res) => {
 export const viewUser = async (req, res) => {
   try {
     const user = await usersModel.findOne({ _id: req.params.id });
-
     res.render("admin/users/view", { pageCss: "dashboard", user });
   } catch (error) {
     console.log(error);
@@ -139,6 +140,26 @@ export const deleteUser = async (req, res) => {
   }
 };
 
+export const blockUser = async (req, res) => {
+  try {
+    const status = req.params.stat === "true" ? false : true;
+    await usersModel.updateOne(
+      { _id: req.params.id },
+      { $set: { blocked: status } }
+    );
+    const user = await usersModel.findOne({_id: req.params.id})
+    console.log(user);
+    if (user.blocked === true) {
+      const client =  mongoose.connection.getClient();
+      const sessionCollection = client.db().collection('userSessions');
+      await sessionCollection.deleteMany({ "session.userId": req.params.id });
+    }
+    res.redirect("/admin/dashboard");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const searchUser = async (req, res) => {
   try {
     let searchTerm = req.body.searchTerm;
@@ -156,7 +177,7 @@ export const searchUser = async (req, res) => {
 
 export const about = async (req, res) => {
   try {
-    res.render("admin/about", { pageCss: "dashboard"});
+    res.render("admin/about", { pageCss: "dashboard" });
   } catch (error) {
     console.log(error);
   }
