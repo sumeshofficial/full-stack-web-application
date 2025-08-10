@@ -73,25 +73,36 @@ export const addUser = async (req, res) => {
 
 export const postUser = async (req, res) => {
   try {
-    // const { name, email, password } = req.body;
-    // const exists = await usersModel.findOne({ email });
-    // if (exists) {
-    //   return res.render("admin/users/add", {
-    //     message: "User already exists",
-    //     pageCss: "dashboard",
-    //   });
-    // }
-    // const salt = await bcrypt.genSalt(10);
-    // const hasedPassword = await bcrypt.hash(password, salt);
-    // const newUser = new usersModel({
-    //   name,
-    //   email,
-    //   password: hasedPassword,
-    // });
-    // const user = await newUser.save();
-    // console.log(user);
-    // res.redirect("/admin");
+    const { name, email, password } = req.body;
+    const exists = await usersModel.findOne({ email });
+    if (exists) {
+      return res.render("admin/users/add", {
+        message: "User already exists",
+        pageCss: "dashboard",
+      });
+    }
+    const salt = await bcrypt.genSalt(10);
+    const hasedPassword = await bcrypt.hash(password, salt);
+    const newUser = new usersModel({
+      name,
+      email,
+      password: hasedPassword,
+    });
+    const user = await newUser.save();
+    console.log(user);
+    res.redirect("/admin");
   } catch (error) {
     console.log(error);
   }
 };
+
+export const viewUser = async (req, res) => {
+  try {
+
+    const user = await usersModel.findOne({_id: req.params.id})
+
+    res.render('admin/users/view', {pageCss: "dashboard", user});
+  } catch (error) {
+    console.log(error);
+  }
+}
