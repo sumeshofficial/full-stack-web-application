@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import { usersModel } from "../models/userModel.js";
-import bcrypt from 'bcrypt'
+import mongoose from "mongoose";
+import bcrypt from "bcrypt";
 dotenv.config();
 
 export const loginAdmin = async (req, res) => {
@@ -44,10 +45,23 @@ export const adminDashboard = async (req, res) => {
       return res.redirect("/admin");
     }
 
-    const users = await usersModel.find({}).limit(5);
+    let perPage = 5;
+    let page = req.query.page || 1;
 
-    res.render("admin/dashboard", { pageCss: "dashboard", users });
+    const users = await usersModel
+      .aggregate([{ $sort: { name: 1 } }])
+      .skip(perPage * page - perPage)
+      .limit(perPage)
+      .exec();
 
+    const count = await usersModel.countDocuments({});
+
+    res.render("admin/dashboard", {
+      pageCss: "dashboard",
+      users,
+      current: page,
+      pages: Math.ceil(count / perPage),
+    });
   } catch (error) {
     console.log(error);
   }
@@ -59,31 +73,24 @@ export const addUser = async (req, res) => {
 
 export const postUser = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
-
-  const exists = await usersModel.findOne({ email });
-
-  if (exists) {
-    return res.render("admin/users/add", {
-      message: "User already exists",
-      pageCss: "dashboard",
-    });
-  }
-
-  const salt = await bcrypt.genSalt(10);
-  const hasedPassword = await bcrypt.hash(password, salt);
-
-  const newUser = new usersModel({
-    name,
-    email,
-    password: hasedPassword,
-  });
-
-  const user = await newUser.save();
-
-  console.log(user);
-  res.redirect('/admin');
-
+    // const { name, email, password } = req.body;
+    // const exists = await usersModel.findOne({ email });
+    // if (exists) {
+    //   return res.render("admin/users/add", {
+    //     message: "User already exists",
+    //     pageCss: "dashboard",
+    //   });
+    // }
+    // const salt = await bcrypt.genSalt(10);
+    // const hasedPassword = await bcrypt.hash(password, salt);
+    // const newUser = new usersModel({
+    //   name,
+    //   email,
+    //   password: hasedPassword,
+    // });
+    // const user = await newUser.save();
+    // console.log(user);
+    // res.redirect("/admin");
   } catch (error) {
     console.log(error);
   }
