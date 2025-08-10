@@ -86,6 +86,10 @@ export const loginUser = async (req, res) => {
       return res.render("user/login", { message: "User doesn't exixts", pageCss: 'login' });
     }
 
+    if (user.blocked){
+      return res.render("user/login", { message: "You are blocked by admin", pageCss: 'login' });
+    }
+
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (isMatch) {

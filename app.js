@@ -5,8 +5,8 @@ import path from "path";
 import userRouter from "./routes/userRoute.js";
 import adminRouter from "./routes/adminRoute.js";
 import connectDB from "./config/db.js";
+import { userSessionStore, adminSessionStore } from "./session/store.js";
 import dotenv from "dotenv";
-import cookieParser from "cookie-parser";
 import nocache from "nocache";
 import session from "express-session";
 
@@ -29,19 +29,37 @@ app.set("views", "views");
 app.set("view engine", "ejs");
 app.use(expressLayouts);
 app.set("layout", "layout/index");
+
 app.use(
+  "/admin",
   session({
+    name: "admin.sid",
     secret: process.env.SESSION_KEY,
     resave: false,
     saveUninitialized: true,
-    cookie: {maxAge: 24 * 60 * 60 * 1000} // 1 day
-  })
+    store: adminSessionStore,
+    cookie: {
+      secure: false,
+      maxAge: 1000 * 60 * 60 * 24, // 1 day
+    },
+  }),
+  adminRouter
 );
-
-app.use(cookieParser());
-
-app.use("/", userRouter);
-app.use("/admin", adminRouter);
+app.use(
+  "/",
+  session({
+    name: "user.sid",
+    secret: process.env.SESSION_KEY,
+    resave: false,
+    saveUninitialized: true,
+    store: userSessionStore,
+    cookie: {
+      secure: false,
+      maxAge: 24 * 60 * 60 * 1000, // 1 day
+    },
+  }),
+  userRouter
+);
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
