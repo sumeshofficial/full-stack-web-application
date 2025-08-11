@@ -110,7 +110,6 @@ export const postUser = async (req, res) => {
       password: hasedPassword,
     });
     const user = await newUser.save();
-    console.log(user);
     res.redirect("/admin");
   } catch (error) {
     console.log(error);
@@ -188,7 +187,6 @@ export const blockUser = async (req, res) => {
       { $set: { blocked: status } }
     );
     const user = await usersModel.findOne({ _id: req.params.id });
-    console.log(user);
     if (user.blocked === true) {
       const client = mongoose.connection.getClient();
       const sessionCollection = client.db().collection("userSessions");

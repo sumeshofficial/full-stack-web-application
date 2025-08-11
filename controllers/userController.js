@@ -33,7 +33,6 @@ export const registerUserGet = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    res.render("user/register", { message: error.message, pageCss: "login" });
   }
 };
 
@@ -50,7 +49,6 @@ export const loginUserGet = async (req, res) => {
     res.render("user/login", { message: "", pageCss: "login" });
   } catch (error) {
     console.log(error);
-    res.render("user/login", { message: error.message, pageCss: "login" });
   }
 };
 
@@ -86,7 +84,6 @@ export const registerUser = async (req, res) => {
     res.redirect("/");
   } catch (error) {
     console.log(error);
-    res.render("user/register", { message: error.message, pageCss: "login" });
   }
 };
 
@@ -129,7 +126,6 @@ export const loginUser = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    res.render("user/login", { message: error.message, pageCss: "login" });
   }
 };
 

@@ -9,9 +9,5 @@ export const userAuth = (req, res, next) => {
     next();
   } catch (err) {
     console.log(err);
-    return res.render("user/login", {
-      message: "Please login again",
-      pageCss: "login",
-    });
   }
 };
