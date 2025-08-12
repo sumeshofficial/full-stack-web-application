@@ -41,7 +41,12 @@
                     <i class="bi bi-pencil"></i>
                   </a>
 
-                  <a href="/admin/delete/<%= user._id %>" type="button" class="btn btn-danger btn-small">
+                  <a href="/admin/block/<%= user._id %>/<%= user.blocked %>" type="button" class="btn <% if (user.blocked) { %>
+                   btn-danger
+                  <% } else { %> 
+                    btn-primary
+                  <% } %>
+                  btn-small">
                     <i class="bi bi-person-x"></i>
                   </a>
 
