@@ -31,15 +31,17 @@
       </div>
 
 
-      <form action="/admin/edit/<%= user._id %>" method="POST">
+      <form action="/admin/edit/<%= user._id %>" method="POST" id="form">
         <div class="row form-group mb-4">
           <div class="col">
             <label for="firstName">Name</label>
+            <div class="error"></div>
             <input type="text" class="form-control" id="name" name="name" value="<%= user.name %>" placeholder="Name">
           </div>
 
           <div class="col">
             <label for="email">Email</label>
+            <div class="error"></div>
             <input type="text" class="form-control" id="email" name="email" value="<%= user.email %>" placeholder="Email">
           </div>
         </div>
@@ -79,3 +81,78 @@
 
   </div>
 </div>
+
+<script>
+  const form = document.getElementById("form");
+  const username = document.getElementById("name");
+  const email = document.getElementById("email");
+
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    if (validateInputs()) {
+      form.submit();
+    }
+  });
+
+  const setError = (element, message) => {
+    const inputControl = element.parentElement;
+    const errorDisplay = inputControl.querySelector(".error");
+
+    errorDisplay.innerText = message;
+
+    inputControl.classList.add("error");
+    inputControl.classList.remove("success");
+  };
+
+  const setSuccess = (element) => {
+    const inputControl = element.parentElement;
+    const errorDisplay = inputControl.querySelector(".error");
+
+    errorDisplay.innerText = "";
+    inputControl.classList.add("success");
+    inputControl.classList.remove("error");
+  };
+
+  const isValidEmail = (email) => {
+    const re =
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+  };
+
+  const validateInputs = () => {
+    let flag = true;
+    const usernameValue = username.value.trim();
+    const emailValue = email.value.trim();
+
+    if (usernameValue === "") {
+      setError(username, "Username is required");
+      flag = false;
+    } else if (usernameValue.length < 3) {
+      setError(username, "User name must be at least 3 character.");
+      flag = false;
+    } else {
+      setSuccess(username);
+    }
+
+    if (emailValue === "") {
+      setError(email, "Email is required");
+      flag = false;
+    } else {
+      setSuccess(email);
+    }
+
+    if (emailValue === "") {
+      setError(email, "Email is required");
+      flag = false;
+    } else if (!isValidEmail(emailValue)) {
+      setError(email, "Provide a valid email address");
+      flag = false;
+    } else {
+      setSuccess(email);
+    }
+
+    return flag;
+  };
+</script>
