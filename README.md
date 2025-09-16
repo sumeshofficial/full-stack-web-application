@@ -65,6 +65,7 @@ PORT="your_port_number"
 MONGODB_URI="your_mongodb_connection_string"
 ADMIN_EMAIL="your_admin_email"
 SESSION_KEY="your_secret_key"
+ADMIN_PASSWORD="your_admin_password"
 ```
 Replace the placeholders with your actual credentials and connection string.
 
